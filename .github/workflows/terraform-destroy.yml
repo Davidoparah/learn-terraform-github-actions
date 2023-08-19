@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Revert Commit
-        run: git revert e47acaa  -n # Replace COMMIT_SHA with the actual SHA of the commit you want to revert
+        run: git revert 485c33a  -n # Replace COMMIT_SHA with the actual SHA of the commit you want to revert
 
       - name: Commit Revert
-        run: git commit -m "Revert changes from e47acaa "
+        run: git commit -m "Revert changes from 24e9517"
 
       - name: Apply Infrastructure
         run: |
