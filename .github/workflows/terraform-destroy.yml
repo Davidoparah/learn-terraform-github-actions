@@ -1,0 +1,25 @@
+name: Revert and Apply Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  revert_and_apply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Revert Commit
+        run: git revert e47acaa  -n # Replace COMMIT_SHA with the actual SHA of the commit you want to revert
+
+      - name: Commit Revert
+        run: git commit -m "Revert changes from e47acaa "
+
+      - name: Apply Infrastructure
+        run: |
+          # Perform infrastructure changes here, e.g., run Terraform commands
+          terraform destroy -auto-approve
