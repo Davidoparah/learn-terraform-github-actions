@@ -45,9 +45,10 @@ resource "aws_instance" "web" {
   user_data = <<-EOF
               #!/bin/bash
               apt-get update
+              apt-get upgrade -y
               apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
               echo "Hello World this is DevOps Engineer David,i am still testing this site out" > /var/www/html/index.html
+              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
               systemctl restart apache2
               EOF
 }
