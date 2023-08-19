@@ -13,18 +13,5 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Terraform
-        run: |
-          curl -LO "https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip"
-          unzip terraform_1.0.9_linux_amd64.zip
-          sudo mv terraform /usr/local/bin/
-          terraform --version
-
-      - name: Initialize Terraform
-        run: terraform init
-
-      - name: Apply Terraform Changes
-        run: terraform apply -auto-approve
+      - name: Destroy Terraform Infrastructure
+        run: terraform destroy -auto-approve
