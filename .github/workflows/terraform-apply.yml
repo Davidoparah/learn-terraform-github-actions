@@ -5,58 +5,50 @@ on:
     branches:
       - main
 
-#env:
-<<<<<<< HEAD
-#TF_CLOUD_ORGANIZATION: "YOUR-ORGANIZATION-HERE"
-#TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-# TF_WORKSPACE: "learn-terraform-github-actions"
-#  CONFIG_DIRECTORY: "./"
-=======
- # TF_CLOUD_ORGANIZATION: "YOUR-ORGANIZATION-HERE"
- # TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-#  TF_WORKSPACE: "learn-terraform-github-actions"
- # CONFIG_DIRECTORY: "./"
->>>>>>> b68ac7a5dd224af015bad43a673b24d1117b5458
+jobs:
+  terraform:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform
+        run: |
+          curl -LO "https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip"
+          unzip terraform_1.0.9_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Apply Terraform Changes
+        run: terraform apply -auto-approve
+name: "Terraform Apply"
+
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   terraform:
-    if: github.repository != 'hashicorp-education/learn-terraform-github-actions'
     name: "Terraform Apply"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Upload Configuration
-        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
-        id: apply-upload
-        with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
-
-      - name: Create Apply Run
-        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
-        id: apply-run
-        with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
-
-      - name: Apply
-        uses: hashicorp/tfc-workflows-github/actions/apply-run@v1.0.0
-        if: fromJSON(steps.apply-run.outputs.payload).data.attributes.actions.IsConfirmable
-        id: apply
-        with:
-          run: ${{ steps.apply-run.outputs.run_id }}
-          comment: "Apply Run from GitHub Actions CI ${{ github.sha }}"
-
-      - name: Initiate Terraform
+      - name: Install Terraform
         run: |
-          cd /Users/mujimoyen/Documents/ACADA/K8/project2/learn-terraform-github-actions
-          terraform init
+          curl -LO "https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip"
+          unzip terraform_1.0.9_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
 
-      - name: Apply Terraform changes
-        run: |
-          cd /Users/mujimoyen/Documents/ACADA/K8/project2/learn-terraform-github-actions
-          terraform apply -auto-approve
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Apply Terraform Changes
+        run: terraform apply -auto-approve
