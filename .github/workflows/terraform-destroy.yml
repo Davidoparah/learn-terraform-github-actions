@@ -17,7 +17,7 @@ jobs:
         run: git revert 485c33a  -n # Replace COMMIT_SHA with the actual SHA of the commit you want to revert
 
       - name: Commit Revert
-        run: git commit -m "Revert changes from 24e9517"
+        run: git commit -m "Revert changes from 485c33a"
 
       - name: Apply Infrastructure
         run: |
